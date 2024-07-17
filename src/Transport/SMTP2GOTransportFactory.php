@@ -1,5 +1,7 @@
 <?php
 
+namespace SMTP2GO\Transport\Transport;
+
 use Symfony\Component\Mailer\Transport\Dsn;
 use SMTP2GO\Transport\Transport\ApiTransport;
 use Symfony\Component\Mailer\Transport\TransportInterface;
@@ -12,8 +14,8 @@ final class SMTP2GOTransportFactory extends AbstractTransportFactory
         // parse the given DSN, extract data/credentials from it
         // $scheme = $dsn->getScheme();
 
-        $key = $dsn->getUser();
-        $client = new SMTP2GO\ApiClient($key);
+        $apiKey = $dsn->getUser();
+        $client = new \SMTP2GO\ApiClient($apiKey);
 
 
         // and then, create and return the transport

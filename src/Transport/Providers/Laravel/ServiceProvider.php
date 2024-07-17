@@ -2,7 +2,6 @@
 
 namespace SMTP2GO\Transport\Providers\Laravel;
 
-use SMTP2GOTransportFactory;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 use Symfony\Component\Mailer\Transport\Dsn;
@@ -13,7 +12,7 @@ class ServiceProvider extends LaravelServiceProvider
     {
         $config = config('smtp2go');
         Mail::extend('smtp2go', function () use ($config) {
-            return (new SMTP2GOTransportFactory())->create(
+            return (new \SMTP2GO\Transport\Transport\SMTP2GOTransportFactory())->create(
                 new Dsn(
                     'smtp2go+api',
                     'default',
