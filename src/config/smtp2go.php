@@ -1,3 +1,5 @@
+<?php
+
 return [
-    'api_key' => env('MAILERSEND_API_KEY'),
+    'api_key' => env('SMTP2GO_API_KEY'),
 ];

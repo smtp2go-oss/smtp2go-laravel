@@ -1,5 +1,5 @@
 <?php
-
+namespace Tests\Unit;
 use PHPUnit\Framework\Attributes\CoversClass;
 use \SMTP2GO\Transport\Transport\SMTP2GOTransportFactory;
 use Symfony\Component\Mailer\Transport\Dsn;
