@@ -12,7 +12,8 @@ class ServiceProvider extends LaravelServiceProvider
     {
         $config = config('smtp2go');
         Mail::extend('smtp2go', function () use ($config) {
-            return (new \SMTP2GO\Transport\Transport\SMTP2GOTransportFactory())->create(
+            
+            return (new \SMTP2GO\Transport\SMTP2GOTransportFactory())->create(
                 new Dsn(
                     'smtp2go+api',
                     'default',
@@ -23,15 +24,13 @@ class ServiceProvider extends LaravelServiceProvider
                 )
             );
         });
-        if ($this->app->runningInConsole()) {
-            $this->publishes([
-                __DIR__ . '../../../config/' => config_path('smtp2go.php'),
-            ], 'config');
-        }
+        $this->publishes([
+            __DIR__ . '/../../../config/' => config_path('smtp2go.php'),
+        ], 'config');
     }
 
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '../../../config/smtp2go.php', 'smtp2go');
+        $this->mergeConfigFrom(__DIR__ . '/../../../config/smtp2go.php', 'smtp2go');
     }
 }

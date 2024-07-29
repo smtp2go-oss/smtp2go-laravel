@@ -1,6 +1,6 @@
 <?php
 
-namespace SMTP2GO\Transport\Transport;
+namespace SMTP2GO\Transport;
 
 use SMTP2GO\Types\Mail\Address;
 use SMTP2GO\Types\Mail\Attachment;

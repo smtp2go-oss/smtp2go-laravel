@@ -4,7 +4,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "SMTP2GO\\Transport\\": "src/"
+            "SMTP2GO\\": "src/"
         }
     },
     "authors": [
@@ -35,7 +35,8 @@
         "psr-4": {
             "Workbench\\App\\": "workbench/app/",
             "Workbench\\Database\\Factories\\": "workbench/database/factories/",
-            "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
+            "Workbench\\Database\\Seeders\\": "workbench/database/seeders/",
+            "Tests\\": "tests/"
         }
     },
     "scripts": {

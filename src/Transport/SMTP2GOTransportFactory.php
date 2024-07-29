@@ -1,9 +1,9 @@
 <?php
 
-namespace SMTP2GO\Transport\Transport;
+namespace SMTP2GO\Transport;
 
 use Symfony\Component\Mailer\Transport\Dsn;
-use SMTP2GO\Transport\Transport\ApiTransport;
+use SMTP2GO\Transport\ApiTransport;
 use Symfony\Component\Mailer\Transport\TransportInterface;
 use Symfony\Component\Mailer\Transport\AbstractTransportFactory;
 

@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'api_key' => env('SMTP2GO_API_KEY'),
+    'key' => env('SMTP2GO_API_KEY'),
 ];
