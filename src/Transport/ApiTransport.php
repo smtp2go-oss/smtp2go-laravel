@@ -22,6 +22,15 @@ class ApiTransport extends AbstractTransport
 {
     public function __construct(private \SMTP2GO\ApiClient $client)
     {
+        parent::__construct();
+    }
+
+    /**
+     * Get the underlying SMTP2GO API client
+     */
+    public function getApiClient() : \SMTP2GO\ApiClient
+    {
+        return $this->client;
     }
 
     protected function doSend(SentMessage $sentMessage): void
@@ -41,7 +50,7 @@ class ApiTransport extends AbstractTransport
             $email->getSubject(),
             $email->getHtmlBody()
         );
-        $service->setTextBody($email->getTextBody());
+        $service->setTextBody($email->getTextBody() ?? '');
 
         //ccs
         foreach ($email->getCc() as $cc) {
@@ -65,14 +74,20 @@ class ApiTransport extends AbstractTransport
             $attachmentCollection->add($theAttachment);
         }
 
-        //headers - to confirm which ones we can set
-        $headers = $email->getHeaders();
-        foreach ($headers->all() as $header) {
-            $service->addCustomHeader(new CustomHeader($header->getName(), $header->getBodyAsString()));
-        }
+        /**  @todo headers - to confirm which ones we can set - this maybe a config option
+         * where you predefined any headers you want to send
+         */
+        // $headers = $email->getHeaders();
+
+        // foreach ($headers->all() as $header) {
+        //     if ($header->getName() === 'Content-Type') {
+        //         continue;
+        //     }
+        //     $service->addCustomHeader(new CustomHeader($header->getName(), $header->getBodyAsString()));
+        // }
 
         if (!$this->client->consume($service)) {
-            $sentMessage->appendDebug($this->client->getLastRequest(true));
+            $sentMessage->appendDebug($this->client->getResponseBody(true));
             throw new TransportException('Unable to send message via SMTP2GO');
         }
     }
