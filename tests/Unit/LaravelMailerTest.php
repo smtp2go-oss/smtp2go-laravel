@@ -8,7 +8,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use SMTP2GO\Transport\Providers\Laravel\ServiceProvider;
 use Tests\BaseTestCase;
 
-use function PHPSTORM_META\map;
 
 #[CoversClass(ServiceProvider::class)]
 class LaravelMailerTest extends BaseTestCase
