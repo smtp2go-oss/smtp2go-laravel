@@ -25,11 +25,7 @@ class LaravelMailerTest extends BaseTestCase
         /** @var \Illuminate\Mail\Mailer $mailer */
         Mail::fake();
 
-        $mailable = new Mailable();
-        $mailable->subject('Test subject');
-        $mailable->html('<p>Test body</p>');
-        $mailable->from('to@example');
-        $mailable->to('from@example');
+        $mailable = $this->makeMailable();
 
         Mail::to('to@example')->send($mailable);
         Mail::assertSent(Mailable::class, function (\Illuminate\Mail\Mailable $mail) {
@@ -39,7 +35,7 @@ class LaravelMailerTest extends BaseTestCase
         });
     }
 
-    public function testWithFakeGuzzleClient()
+    public function testSuccessWithMockGuzzleClient()
     {
         /** @var \Illuminate\Mail\Mailer $mailer */
         $mailer = Mail::mailer();
@@ -58,18 +54,54 @@ class LaravelMailerTest extends BaseTestCase
             ]),
         ]));
 
+        $mailable = $this->makeMailable();
+
+        Mail::to(env('TEST_RECIPIENT'))->send($mailable);
+
+        $this->assertJson(
+            $client->getResponseBody(false),
+            json_encode(['message' => 'success'])
+        );
+    }
+
+    public function testFailureWithMockGuzzleClient()
+    {
+        /** @var \Illuminate\Mail\Mailer $mailer */
+        $mailer = Mail::mailer();
+        /** @var \SMTP2GO\Transport\ApiTransport */
+        $transport = $mailer->getSymfonyTransport();
+
+        $client = $transport->getApiClient();
+
+        $client->setHttpClient(new \GuzzleHttp\Client([
+            'handler' => new \GuzzleHttp\Handler\MockHandler([
+                new \GuzzleHttp\Psr7\Response(
+                    400,
+                    [],
+                    json_encode(['message' => 'failure'])
+                ),
+            ]),
+        ]));
+
+        $mailable = $this->makeMailable();
+
+        $this->expectException(\Symfony\Component\Mailer\Exception\TransportException::class);
+
+        Mail::to(env('TEST_RECIPIENT'))->send($mailable);
+
+        $this->assertJson(
+            $client->getResponseBody(false),
+            json_encode(['message' => 'failure'])
+        );
+    }
+
+    private function makeMailable(): Mailable
+    {
         $mailable = new Mailable();
         $mailable->subject('Test subject');
         $mailable->html('<p>Test body</p>');
         $mailable->from('to@example');
         $mailable->to('from@example');
-
-        Mail::to(env('TEST_RECIPIENT'))->send($mailable);
-
-        //check client response        
-        $this->assertJson(
-            $client->getResponseBody(false),
-            json_encode(['message' => 'success'])
-        );
+        return $mailable;
     }
 }

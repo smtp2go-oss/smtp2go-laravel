@@ -16,6 +16,7 @@ use SMTP2GO\Collections\Mail\AttachmentCollection;
 use SMTP2GO\Service\Mail\Send as SMTP2GOMailSendService;
 use Symfony\Component\Mailer\Transport\AbstractTransport;
 use Symfony\Component\Mailer\Exception\TransportException;
+use Symfony\Component\Mailer\Header\MetadataHeader;
 use Symfony\Component\Mailer\Transport\TransportInterface;
 
 class ApiTransport extends AbstractTransport
@@ -28,7 +29,7 @@ class ApiTransport extends AbstractTransport
     /**
      * Get the underlying SMTP2GO API client
      */
-    public function getApiClient() : \SMTP2GO\ApiClient
+    public function getApiClient(): \SMTP2GO\ApiClient
     {
         return $this->client;
     }
@@ -79,15 +80,14 @@ class ApiTransport extends AbstractTransport
          */
         // $headers = $email->getHeaders();
 
-        // foreach ($headers->all() as $header) {
-        //     if ($header->getName() === 'Content-Type') {
-        //         continue;
-        //     }
-        //     $service->addCustomHeader(new CustomHeader($header->getName(), $header->getBodyAsString()));
-        // }
+        foreach ($email->getHeaders()->all() as $header) {            
+            if (is_a($header, MetadataHeader::class)) {
+                $service->addCustomHeader(new CustomHeader($header->getName(), $header->getBodyAsString()));
+            }            
+        }
 
         if (!$this->client->consume($service)) {
-            $sentMessage->appendDebug($this->client->getResponseBody(true));
+            $sentMessage->appendDebug($this->client->getResponseBody(false));
             throw new TransportException('Unable to send message via SMTP2GO');
         }
     }

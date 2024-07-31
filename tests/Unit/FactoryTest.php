@@ -10,9 +10,9 @@ use Symfony\Component\Translation\Provider\Dsn as ProviderDsn;
 class FactoryTest extends \PHPUnit\Framework\TestCase
 {
 
-    public function testCreate(): void
+    public function testCreateTransportFromFactory(): void
     {
-        $dsnString = file_get_contents(__DIR__ . '/fixtures/MAILER_DSN');
+        $dsnString = file_get_contents(__DIR__ . '/../fixtures/MAILER_DSN');        
         $dsn = new ProviderDsn($dsnString);
         $factory = new SMTP2GOTransportFactory();
         $dsn = new Dsn($dsn->getScheme(), $dsn->getHost(), $dsn->getUser());
