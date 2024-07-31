@@ -1,9 +1,9 @@
 <?php
 namespace Tests\Unit;
 use PHPUnit\Framework\Attributes\CoversClass;
-use \SMTP2GO\Transport\Transport\SMTP2GOTransportFactory;
+use \SMTP2GO\Transport\SMTP2GOTransportFactory;
 use Symfony\Component\Mailer\Transport\Dsn;
-use SMTP2GO\Transport\Transport\ApiTransport;
+use SMTP2GO\Transport\ApiTransport;
 use Symfony\Component\Translation\Provider\Dsn as ProviderDsn;
 
 #[CoversClass(SMTP2GOTransportFactory::class)]
