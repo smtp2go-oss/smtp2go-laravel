@@ -12,8 +12,6 @@ final class SMTP2GOTransportFactory extends AbstractTransportFactory
     public function create(Dsn $dsn): TransportInterface
     {
         // parse the given DSN, extract data/credentials from it
-        // $scheme = $dsn->getScheme();
-
         $apiKey = $dsn->getUser();
         $client = new \SMTP2GO\ApiClient($apiKey);
 

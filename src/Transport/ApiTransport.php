@@ -21,6 +21,8 @@ use Symfony\Component\Mailer\Transport\TransportInterface;
 
 class ApiTransport extends AbstractTransport
 {
+    private $service;
+
     public function __construct(private \SMTP2GO\ApiClient $client)
     {
         parent::__construct();
@@ -34,13 +36,22 @@ class ApiTransport extends AbstractTransport
         return $this->client;
     }
 
+    /**
+     * Get the underlying SMTP2GO service that builds the request consumed by the client
+     */
+    public function getService(): SMTP2GOMailSendService
+    {
+        return $this->service;
+    }
+
+
     protected function doSend(SentMessage $sentMessage): void
     {
         $email = MessageConverter::toEmail($sentMessage->getOriginalMessage());
 
         $envelope = $sentMessage->getEnvelope();
 
-        $service = new SMTP2GOMailSendService(
+        $this->service = new SMTP2GOMailSendService(
             new Address($envelope->getSender()->getAddress(), $envelope->getSender()->getName()),
             new AddressCollection(
                 array_map(
@@ -51,16 +62,16 @@ class ApiTransport extends AbstractTransport
             $email->getSubject(),
             $email->getHtmlBody()
         );
-        $service->setTextBody($email->getTextBody() ?? '');
+        $this->service->setTextBody($email->getTextBody() ?? '');
 
         //ccs
         foreach ($email->getCc() as $cc) {
-            $service->addAddress('cc', new Address($cc->getAddress(), $cc->getName()));
+            $this->service->addAddress('cc', new Address($cc->getAddress(), $cc->getName()));
         }
 
         //bcss
         foreach ($email->getBcc() as $bcc) {
-            $service->addAddress('bcc', new Address($bcc->getAddress(), $bcc->getName()));
+            $this->service->addAddress('bcc', new Address($bcc->getAddress(), $bcc->getName()));
         }
 
         //external attchments
@@ -82,11 +93,11 @@ class ApiTransport extends AbstractTransport
 
         foreach ($email->getHeaders()->all() as $header) {            
             if (is_a($header, MetadataHeader::class)) {
-                $service->addCustomHeader(new CustomHeader($header->getName(), $header->getBodyAsString()));
+                $this->service->addCustomHeader(new CustomHeader($header->getName(), $header->getBodyAsString()));
             }            
         }
 
-        if (!$this->client->consume($service)) {
+        if (!$this->client->consume($this->service)) {
             $sentMessage->appendDebug($this->client->getResponseBody(false));
             throw new TransportException('Unable to send message via SMTP2GO');
         }

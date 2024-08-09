@@ -15,7 +15,6 @@ class BaseTestCase extends \Orchestra\Testbench\TestCase
      */
     protected function defineEnvironment($app)
     {
-        // Setup default database to use sqlite :memory:
         tap($app['config'], function (Repository $config) {
             $config->set('mail.mailers.smtp2go', [
                 'transport' => 'smtp2go',
