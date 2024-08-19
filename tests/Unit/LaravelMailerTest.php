@@ -31,6 +31,7 @@ class LaravelMailerTest extends BaseTestCase
         Mail::assertSent(Mailable::class, function (\Illuminate\Mail\Mailable $mail) {
             return $mail->hasFrom('to@example') &&
                 $mail->hasTo('from@example') &&
+                $mail->assertHasAttachment(__DIR__ . '/../fixtures/test.txt') &&
                 $mail->subject === 'Test subject';
         });
     }
@@ -62,6 +63,8 @@ class LaravelMailerTest extends BaseTestCase
             $client->getResponseBody(false),
             json_encode(['message' => 'success'])
         );
+
+
     }
 
     public function testFailureWithMockGuzzleClient()
@@ -102,6 +105,7 @@ class LaravelMailerTest extends BaseTestCase
         $mailable->html('<p>Test body</p>');
         $mailable->from('to@example');
         $mailable->to('from@example');
+        $mailable->attach(__DIR__ . '/../fixtures/test.txt');
         return $mailable;
     }
 }

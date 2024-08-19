@@ -3,21 +3,17 @@
 namespace SMTP2GO\Transport;
 
 use SMTP2GO\Types\Mail\Address;
-use SMTP2GO\Types\Mail\Attachment;
-use Illuminate\Support\Facades\Http;
 use SMTP2GO\Types\Mail\CustomHeader;
-use Symfony\Component\Mailer\Envelope;
-use Symfony\Component\Mime\RawMessage;
+use SMTP2GO\Types\Mail\FileAttachment;
 use SMTP2GO\Types\Mail\InlineAttachment;
 use Symfony\Component\Mailer\SentMessage;
 use Symfony\Component\Mime\MessageConverter;
 use SMTP2GO\Collections\Mail\AddressCollection;
 use SMTP2GO\Collections\Mail\AttachmentCollection;
+use Symfony\Component\Mailer\Header\MetadataHeader;
 use SMTP2GO\Service\Mail\Send as SMTP2GOMailSendService;
 use Symfony\Component\Mailer\Transport\AbstractTransport;
 use Symfony\Component\Mailer\Exception\TransportException;
-use Symfony\Component\Mailer\Header\MetadataHeader;
-use Symfony\Component\Mailer\Transport\TransportInterface;
 
 class ApiTransport extends AbstractTransport
 {
@@ -79,9 +75,10 @@ class ApiTransport extends AbstractTransport
         $attachmentCollection = new AttachmentCollection();
         foreach ($email->getAttachments() as $attachment) {
             if ($attachment->getDisposition() === 'inline') {
+                
                 $theAttachment = new InlineAttachment($attachment->getFilename(), $attachment->getBody(), $attachment->getMediaType());
             } else {
-                $theAttachment = new Attachment($attachment->getFilename(), $attachment->getBody(), $attachment->getMediaType());
+                $theAttachment = new FileAttachment($attachment->getBody(),$attachment->getFilename());
             }
             $attachmentCollection->add($theAttachment);
         }

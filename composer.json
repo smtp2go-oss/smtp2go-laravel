@@ -1,5 +1,5 @@
 {
-    "name": "smtp2go-oss/symfony-laravel-smtp2gomailer",
+    "name": "smtp2go-oss/smtp2go-symfony-laravel-mailer",
     "type": "library",
     "license": "MIT",
     "autoload": {
@@ -15,7 +15,7 @@
     ],
     "require": {
         "symfony/mailer": "^7.1",
-        "smtp2go-oss/smtp2go-php": "^1.1",
+        "smtp2go-oss/smtp2go-php": "dev-dev",
         "symfony/http-client": "^7.1"
     },
     "require-dev": {
