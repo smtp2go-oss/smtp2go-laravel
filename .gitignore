@@ -3,3 +3,4 @@
 .env.testing
 phpunit.xml
 /var/
+release-dev-tag.sh
