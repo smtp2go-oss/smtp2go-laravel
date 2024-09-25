@@ -25,7 +25,7 @@ class ServiceProvider extends LaravelServiceProvider
             );
         });
         $this->publishes([
-            __DIR__ . '/../../../config/' => config_path('smtp2go.php'),
+            __DIR__ . '/../../../config/' => config_path(),
         ], 'config');
     }
 
