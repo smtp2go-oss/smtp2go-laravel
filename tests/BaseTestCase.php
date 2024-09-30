@@ -23,12 +23,4 @@ class BaseTestCase extends \Orchestra\Testbench\TestCase
             $config->set('mail.default', 'smtp2go');
         });
     }
-
-    public function tearDown(): void
-    {
-        parent::tearDown();
-
-        restore_error_handler();
-        restore_exception_handler();
-    }
 }

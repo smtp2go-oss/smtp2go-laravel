@@ -14,6 +14,7 @@ class LaravelMailerTest extends BaseTestCase
 {
     public function testSmtp2goMailerIsUsed()
     {
+        
         /** @var \Illuminate\Mail\Mailer $mailer */
         $mailer = Mail::mailer();
         $transport = $mailer->getSymfonyTransport();

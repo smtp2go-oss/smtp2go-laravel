@@ -13,11 +13,12 @@ final class SMTP2GOTransportFactory extends AbstractTransportFactory
     {
         // parse the given DSN, extract data/credentials from it
         $apiKey = $dsn->getUser();
+
         $client = new \SMTP2GO\ApiClient($apiKey);
 
-
+        $configOptions = $dsn->getOption('options', []);
         // and then, create and return the transport
-        return new ApiTransport($client);
+        return new ApiTransport($client, $configOptions);
     }
 
     protected function getSupportedSchemes(): array

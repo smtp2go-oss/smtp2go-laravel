@@ -18,8 +18,7 @@ use Symfony\Component\Mailer\Exception\TransportException;
 class ApiTransport extends AbstractTransport
 {
     private $service;
-
-    public function __construct(private \SMTP2GO\ApiClient $client)
+    public function __construct(private \SMTP2GO\ApiClient $client, private array $options = [])
     {
         parent::__construct();
     }
@@ -51,7 +50,7 @@ class ApiTransport extends AbstractTransport
             new Address($envelope->getSender()->getAddress(), $envelope->getSender()->getName()),
             new AddressCollection(
                 array_map(
-                    fn ($recipient) => new Address($recipient->getAddress(), $recipient->getName()),
+                    fn($recipient) => new Address($recipient->getAddress(), $recipient->getName()),
                     $envelope->getRecipients(),
                 )
             ),
@@ -75,23 +74,24 @@ class ApiTransport extends AbstractTransport
         $attachmentCollection = new AttachmentCollection();
         foreach ($email->getAttachments() as $attachment) {
             if ($attachment->getDisposition() === 'inline') {
-                
+
                 $theAttachment = new InlineAttachment($attachment->getFilename(), $attachment->getBody(), $attachment->getMediaType());
             } else {
-                $theAttachment = new FileAttachment($attachment->getBody(),$attachment->getFilename());
+                $theAttachment = new FileAttachment($attachment->getBody(), $attachment->getFilename());
             }
             $attachmentCollection->add($theAttachment);
         }
 
-        /**  @todo headers - to confirm which ones we can set - this maybe a config option
-         * where you predefined any headers you want to send
-         */
-        // $headers = $email->getHeaders();
-
-        foreach ($email->getHeaders()->all() as $header) {            
+        foreach ($email->getHeaders()->all() as $header) {
             if (is_a($header, MetadataHeader::class)) {
                 $this->service->addCustomHeader(new CustomHeader($header->getName(), $header->getBodyAsString()));
-            }            
+            }
+        }
+
+        if (!empty($this->options['custom_headers'])) {
+            foreach ($this->options['custom_headers'] as $headerName => $headerValue) {
+                $this->service->addCustomHeader(new CustomHeader($headerName, $headerValue));
+            }
         }
 
         if (!$this->client->consume($this->service)) {
