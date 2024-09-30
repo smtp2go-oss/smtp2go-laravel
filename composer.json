@@ -15,8 +15,7 @@
     ],
     "require": {
         "symfony/mailer": "^7.1",
-        "smtp2go-oss/smtp2go-php": "dev-dev",
-        "symfony/http-client": "^7.1"
+        "smtp2go-oss/smtp2go-php": "dev-dev"
     },
     "require-dev": {
         "phpunit/phpunit": "^11.2",
