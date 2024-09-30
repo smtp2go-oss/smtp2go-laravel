@@ -4,3 +4,4 @@
 phpunit.xml
 /var/
 release-dev-tag.sh
+/workbench/
