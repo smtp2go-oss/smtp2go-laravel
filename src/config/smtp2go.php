@@ -6,5 +6,6 @@ return [
         'custom_headers' => [
             // 'X-Test-Header' => 'Test header value',
         ],
+        'api_region' => 'us',
     ]
 ];

@@ -94,6 +94,14 @@ class ApiTransport extends AbstractTransport
             }
         }
 
+        if (!empty($this->options['api_region'])) {
+            try {
+                $this->client->setApiRegion($this->options['api_region']);
+            } catch (\Exception $e) {
+                throw new TransportException($e->getMessage());
+            }
+        }
+
         if (!$this->client->consume($this->service)) {
             $sentMessage->appendDebug($this->client->getResponseBody(false));
             throw new TransportException('Unable to send message via SMTP2GO');
