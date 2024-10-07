@@ -1,5 +1,7 @@
 # Symfony Laravel SMTP2Go Mailer
 
+## This package is currently in BETA and is not recommended for use in production. Currently we are only testing in Laravel applications.
+
 This is a Laravel Service Provider for sending mail from a Laravel Application via SMTP2GO.
 It should also work in Symfony applications due to Laravel's underlying dependency on Symfony mailer.
 
