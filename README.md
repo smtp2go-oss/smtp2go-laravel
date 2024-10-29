@@ -1,4 +1,4 @@
-# Symfony Laravel SMTP2Go Mailer
+# Symfony Laravel SMTP2GO Mailer
 
 ## This package is currently in BETA and is not recommended for use in production. Currently we are only testing in Laravel applications.
 
