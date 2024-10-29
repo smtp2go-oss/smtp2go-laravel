@@ -40,7 +40,7 @@ and change the existing `MAIL_MAILER` entry to `smtp2go`
 ```
 
 ## Setup - Symfony
-1. Add the following to your .env file
+1. Add the following to your `.env` file
 ```
 SMTP2GO_API_KEY=api-YOUR_API_KEY_HERE
 MAILER_DSN=SMTP2GO://${SMTP2GO_API_KEY}@default
@@ -51,7 +51,7 @@ imports:
     - { resource: 'services.php' }
 ```
 
-3. Setup config/services.php, example below...
+3. Setup `config/services.php`, example below...
 ```php
 <?php
 //config/services.php
