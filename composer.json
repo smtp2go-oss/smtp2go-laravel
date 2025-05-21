@@ -1,5 +1,5 @@
 {
-    "name": "smtp2go-oss/smtp2go-symfony-laravel-transport",
+    "name": "smtp2go-oss/smtp2go-laravel",
     "type": "library",
     "license": "MIT",
     "autoload": {
