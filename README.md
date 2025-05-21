@@ -14,7 +14,7 @@ It should also work in Symfony applications due to Laravel's underlying dependen
 
 Install via composer:
     ```
-     composer require smtp2go-oss/smtp2go-symfony-laravel-transport
+     composer require smtp2go-oss/smtp2go-laravel
     ```
 
 ## Setup - Laravel
