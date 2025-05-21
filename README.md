@@ -1,8 +1,7 @@
 # Symfony Laravel SMTP2GO Mailer
 
-## This package is currently in BETA and is not recommended for use in production. Currently we are only testing in Laravel applications.
 
-This is a Laravel Service Provider for sending mail from a Laravel Application via SMTP2GO.
+This is a Laravel Service Provider for sending mail from a Laravel application via SMTP2GO.
 It should also work in Symfony applications due to Laravel's underlying dependency on Symfony mailer.
 
 ## Requirements
@@ -11,12 +10,10 @@ It should also work in Symfony applications due to Laravel's underlying dependen
 - Laravel 11.0 or higher
 - SMTP2GO account
 
-
-
 ## Install
 
 Install via composer:
-    ```sh
+    ```
      composer require smtp2go-oss/smtp2go-symfony-laravel-transport
     ```
 
@@ -31,7 +28,7 @@ and change the existing `MAIL_MAILER` entry to `smtp2go`
 
 `MAIL_MAILER=smtp2go`
 
-2. Update your config/mail.php file
+2. Add the following entry to config/mail.php
 ```php
 'smtp2go' => [
             'key' => env('SMTP2GO_API_KEY'),
@@ -70,7 +67,6 @@ return function (ContainerConfigurator $container): void {
 };
 
 ```
-
 
 ## Contributing
 
