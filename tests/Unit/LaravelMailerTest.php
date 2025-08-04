@@ -2,11 +2,11 @@
 
 namespace Tests\Unit;
 
+use Tests\BaseTestCase;
 use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Mail;
 use PHPUnit\Framework\Attributes\CoversClass;
 use SMTP2GO\Transport\Providers\Laravel\ServiceProvider;
-use Tests\BaseTestCase;
 
 
 #[CoversClass(ServiceProvider::class)]
@@ -58,10 +58,10 @@ class LaravelMailerTest extends BaseTestCase
 
         $mailable = $this->makeMailable();
 
-        Mail::to(env('TEST_RECIPIENT'))->send($mailable);
+        $sentMessage = Mail::to(env('TEST_RECIPIENT'))->send($mailable);
 
         $this->assertJson(
-            $client->getResponseBody(false),
+            $sentMessage->getDebug(),
             json_encode(['message' => 'success'])
         );
 
@@ -91,10 +91,10 @@ class LaravelMailerTest extends BaseTestCase
 
         $this->expectException(\Symfony\Component\Mailer\Exception\TransportException::class);
 
-        Mail::to(env('TEST_RECIPIENT'))->send($mailable);
+        $sentMessage = Mail::to(env('TEST_RECIPIENT'))->send($mailable);
 
         $this->assertJson(
-            $client->getResponseBody(false),
+            $sentMessage->getDebug(),
             json_encode(['message' => 'failure'])
         );
     }

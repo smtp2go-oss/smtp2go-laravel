@@ -106,6 +106,8 @@ class ApiTransport extends AbstractTransport
             $sentMessage->appendDebug($this->client->getResponseBody(false));
             throw new TransportException('Unable to send message via SMTP2GO');
         }
+
+        $sentMessage->appendDebug($this->client->getResponseBody(false));
     }
 
     public function __toString(): string
